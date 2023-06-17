@@ -1,5 +1,5 @@
 APP 			:= game
-CCFLAGS 	:= -Wall -pedantic
+CCFLAGS 	:= -Wall -Wextra -pedantic
 CFLAGS 	:= $(CCFLAGS)
 CC 				:= g++
 C 				:= gcc
