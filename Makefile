@@ -6,8 +6,11 @@ C 				:= gcc
 MKDIR 		:= mkdir -p
 SRC 			:= src
 OBJ 			:= obj
+# LIBS 			:= -lX11 -lXext
+LIBS 			:= -lX11
 
 #patsubst sustituye path por ejemplo el path src lo puedes sustituir por obj
+
 ALLCPPS 		:= $(shell find src/ -type f -iname "*.cpp")
 ALLCS 			:= $(shell find src/ -type f -iname "*.c")
 ALLCSOBJ 		:= $(patsubst %.c, %.o, $(ALLCS))
@@ -18,7 +21,7 @@ OBJSUBDIRS 	:= $(patsubst $(SRC)%, $(OBJ)%, $(SUBDIRS))
 .PHONY: dir
 
 $(APP) : $(OBJSUBDIRS) $(ALLCSOBJ) $(ALLCPPSOBJ)
-	$(CC) -o $(APP) $(patsubst $(SRC)%,$(OBJ)%, $(ALLCSOBJ) $(ALLCPPSOBJ))
+	$(CC) -o $(APP) $(patsubst $(SRC)%,$(OBJ)%, $(ALLCSOBJ) $(ALLCPPSOBJ)) $(LIBS)
 
 #incluye todos los archivos de .o son iguales a .c
 %.o: %.c
