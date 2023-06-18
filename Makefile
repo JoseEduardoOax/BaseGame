@@ -28,32 +28,39 @@ endef
 ##################################################
 
 APP 			:= game
-CCFLAGS 	:= -Wall -Wextra -pedantic
-CFLAGS 	:= $(CCFLAGS)
+CFLAGS 	:= -Wall -Wextra -pedantic
+CCFLAGS 	:= $(CFLAGS) -std=c++17
 CC 				:= g++
 C 				:= gcc
 MKDIR 		:= mkdir -p
 SRC 			:= src
 OBJ 			:= obj
 # LIBS 			:= -lX11 -lXext
-LIBS 			:= -lX11
+LIBDIR 		:= lib
+LIBS 			:= $(LIBDIR)/picoPNG/libpicopng.a $(LIBDIR)/tinyPTC/libtinyptc.a -lX11
+INCDIRS 	:= -I$(SRC) -I$(LIBDIR)
+
+ifdef DEBUG
+	CCFLAGS += -g
+else
+	CCFLAGS += -O3
+endif
 
 #patsubst sustituye path por ejemplo el path src lo puedes sustituir por obj
-
 ALLCPPS 		:= $(shell find src/ -type f -iname "*.cpp")
 ALLCS 			:= $(shell find src/ -type f -iname "*.c")
 ALLSOBJ 	:= $(foreach F, $(ALLCPPS) $(ALLCS),$(call C20,$(F)))
 SUBDIRS 		:= $(shell find $(SRC) -type d)
 OBJSUBDIRS 	:= $(patsubst $(SRC)%, $(OBJ)%, $(SUBDIRS))
 
-.PHONY: info
+.PHONY: info libs libs-clean libs-cleanall
 
 $(APP) : $(OBJSUBDIRS) $(ALLSOBJ)
 	$(CC) -o $(APP) $(ALLSOBJ) $(LIBS)
 
 #Generate rules for all objects
-$(foreach F,$(ALLCPPS),$(eval $(call COMPILE,$(CC),$(call C20,$(F)),$(F),$(call C2H,$(F)),$(CCFLAGS))))
-$(foreach F,$(ALLCS),$(eval $(call COMPILE,$(C),$(call C20,$(F)),$(F),$(call C2H,$(F)),$(CFLAGS))))
+$(foreach F,$(ALLCPPS),$(eval $(call COMPILE,$(CC),$(call C20,$(F)),$(F),$(call C2H,$(F)),$(CCFLAGS) $(INCDIRS))))
+$(foreach F,$(ALLCS),$(eval $(call COMPILE,$(C),$(call C20,$(F)),$(F),$(call C2H,$(F)),$(CFLAGS) $(INCDIRS))))
 
 info:
 	$(info $(SUBDIRS))
@@ -72,3 +79,15 @@ clean:
 
 cleanall: clean
 	$(RM) "./$(APP)"
+
+## LIB rules
+libs:
+	$(MAKE) -C $(LIBDIR)
+
+libs-clean:
+	$(MAKE) -C $(LIBDIR) clean
+
+libs-cleanall:
+	$(MAKE) -C $(LIBDIR) cleanall
+
+
