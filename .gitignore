@@ -1,4 +1,14 @@
+#carpeta de salida
 obj/
+
+#nombre de la aplicacion
 game
 
+#salida de librerias
 **/*.a
+
+# archivo que le dice a clangd(lsp de clang) como trabajar con los archivos
+compile_commands.json
+
+# carpeta cache
+.cache/
