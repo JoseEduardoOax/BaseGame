@@ -1,13 +1,25 @@
-.PHONY: all clean cleanall
+# LIBS 		:= $(shell find . -maxdepth 1 -type d)
+LIBS 			:= $(shell ls -d */)
+
+.PHONY: info all clean cleanall
 	
 all:
-	$(MAKE) -C tinyPTC
-	$(MAKE) -C picoPNG
+	$(foreach DIR,$(LIBS),$(MAKE) -C $(DIR) &&) true
+#
+#
+# all: $(LIBS)
+# $(LIBS):
+# 	$(MAKE) -C $@
 
 clean:
-	$(MAKE) -C tinyPTC clean
-	$(MAKE) -C picoPNG clean
+	$(foreach DIR,$(LIBS),$(MAKE) -C $(DIR) clean &&) true
+# $(MAKE) -C tinyPTC/ clean
+# $(MAKE) -C picoPNG/ clean
 	
 cleanall:
-	$(MAKE) -C tinyPTC cleanall
-	$(MAKE) -C picoPNG cleanall
+	$(foreach DIR,$(LIBS),$(MAKE) -C $(DIR) cleanall &&) true
+# $(MAKE) -C tinyPTC/ cleanall
+# $(MAKE) -C picoPNG/ cleanall
+
+info:
+	$(info $(LIBS))
