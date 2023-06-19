@@ -12,3 +12,6 @@ compile_commands.json
 
 # carpeta cache
 .cache/
+
+# se omite archivos de valgrind(debugging memory leaks)
+vgcore.*
