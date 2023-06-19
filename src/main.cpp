@@ -1,3 +1,4 @@
+#include "sys/render.hpp"
 extern "C" {
 #include <tinyPTC/src/tinyptc.h>
 }
@@ -74,7 +75,10 @@ void execute() {
 
 int main() {
   try {
-    execute();
+    ECS::RenderSystem_t Render{kSCRWIDTH, kSCRHEIGHT};
+    // execute();
+
+  while (!ptc_process_events()) {}
   } catch (...) {
     std::cout <<"Capturada\n";
   }
