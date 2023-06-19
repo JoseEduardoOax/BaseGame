@@ -1,3 +1,5 @@
+#include <exception>
+#include <iostream>
 extern "C" {
 #include <tinyPTC/src/tinyptc.h>
 }
@@ -7,8 +9,6 @@ extern "C" {
 constexpr uint32_t kR = 0x00FF0000;
 constexpr uint32_t kG = 0x0000FF00;
 constexpr uint32_t kB = 0x000000FF;
-
-uint32_t screen[640 * 360];
 
 constexpr uint32_t sprite[8 * 8] = {
   kG,kG,kG,kG,kG,kG,kG,kG,
@@ -21,16 +21,32 @@ constexpr uint32_t sprite[8 * 8] = {
   kG,kG,kG,kG,kG,kG,kG,kG,
 };
 
-int main() {
-  ptc_open("window", 640, 360);
+constexpr uint32_t kSCRWIDTH  {640};
+constexpr uint32_t kSCRHEIGHT {360};
 
-  for (;;) {
-    
+struct Screen_t {
+  Screen_t(uint32_t w, uint32_t h)
+  : screen(new uint32_t[w*h]){}
+
+  ~Screen_t(){
+    delete[] screen;
+  }
+  
+  uint32_t *screen {nullptr};
+};
+
+void execute() {
+  ptc_open("window", kSCRWIDTH, kSCRHEIGHT);
+
+  Screen_t scr(kSCRWIDTH, kSCRHEIGHT);
+
+  while (!ptc_process_events()) {
+
     for (uint32_t i = 0; i < 640 * 360; ++i) {
-      screen[i] = kR;
+      scr.screen[i] = kR;
     }
 
-    uint32_t *pscr = screen;
+    uint32_t *pscr = scr.screen;
     const uint32_t *psp = sprite;
     for (uint32_t i = 0; i < 8; ++i) {
       for (uint32_t j = 0; j < 8; ++j) {
@@ -42,9 +58,20 @@ int main() {
       pscr += 640 - 8;
     }
 
-    ptc_update(screen);
+    // throw "Excepcion";
+
+    ptc_update(scr.screen);
   }
 
   ptc_close();
+}
+
+int main() {
+  try {
+    execute();
+  } catch (...) {
+    std::cout <<"Capturada\n";
+  }
+  
   return 0;
 }
