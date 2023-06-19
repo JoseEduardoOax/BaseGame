@@ -1,10 +1,10 @@
-#include <exception>
-#include <iostream>
 extern "C" {
 #include <tinyPTC/src/tinyptc.h>
 }
 
 #include <cstdint>
+#include <memory>
+#include <iostream>
 
 constexpr uint32_t kR = 0x00FF0000;
 constexpr uint32_t kG = 0x0000FF00;
@@ -24,29 +24,35 @@ constexpr uint32_t sprite[8 * 8] = {
 constexpr uint32_t kSCRWIDTH  {640};
 constexpr uint32_t kSCRHEIGHT {360};
 
-struct Screen_t {
-  Screen_t(uint32_t w, uint32_t h)
-  : screen(new uint32_t[w*h]){}
-
-  ~Screen_t(){
-    delete[] screen;
-  }
-  
-  uint32_t *screen {nullptr};
-};
+// struct Screen_t {
+//   Screen_t(uint32_t w, uint32_t h)
+//   : screen(new uint32_t[w*h]){}
+//
+//   ~Screen_t(){
+//     delete[] screen;
+//   }
+//   
+//   uint32_t *screen {nullptr};
+// };
+//
 
 void execute() {
   ptc_open("window", kSCRWIDTH, kSCRHEIGHT);
 
-  Screen_t scr(kSCRWIDTH, kSCRHEIGHT);
+  // std::unique_ptr<uint32_t[]> screen = 
+  //   std::make_unique<uint32_t[]>(kSCRHEIGHT*kSCRWIDTH);
+
+  auto screen {std::make_unique<uint32_t[]>(kSCRWIDTH*kSCRHEIGHT)};
+  
+  // screen = std::move(screen2); //funcion que permite asignar otro puntero a mi puntero de forma segura
 
   while (!ptc_process_events()) {
 
     for (uint32_t i = 0; i < 640 * 360; ++i) {
-      scr.screen[i] = kR;
+      screen[i] = kR;
     }
 
-    uint32_t *pscr = scr.screen;
+    uint32_t *pscr = screen.get();
     const uint32_t *psp = sprite;
     for (uint32_t i = 0; i < 8; ++i) {
       for (uint32_t j = 0; j < 8; ++j) {
@@ -55,12 +61,12 @@ void execute() {
         ++psp;
       }
 
-      pscr += 640 - 8;
+      pscr += kSCRWIDTH - 8;
     }
 
     // throw "Excepcion";
 
-    ptc_update(scr.screen);
+    ptc_update(screen.get());
   }
 
   ptc_close();
