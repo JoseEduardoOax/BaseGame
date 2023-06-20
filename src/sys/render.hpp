@@ -2,11 +2,14 @@
 
 #include <cstdint>
 #include <memory>
+#include <man/entitymanager.hpp>
 
 namespace ECS{
 
+struct Entity_Manager_t;
+
 struct RenderSystem_t {
-  explicit RenderSystem_t(uint32_t w, uint32_t h);
+  explicit RenderSystem_t(uint32_t w, uint32_t h, Entity_Manager_t& em);
   ~RenderSystem_t();
 
   bool update() const;
@@ -30,6 +33,7 @@ struct RenderSystem_t {
 private: 
   const uint32_t m_w{0}, m_h{0};
   std::unique_ptr<uint32_t[]>m_framebuffer {nullptr};
+  Entity_Manager_t& m_EntMan;
 };
 
 } // namespace ECS
