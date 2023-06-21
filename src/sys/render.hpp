@@ -13,6 +13,7 @@ struct RenderSystem_t {
   ~RenderSystem_t();
 
   bool update() const;
+  void drawAllEntities() const;
   
   //Constantes
   static constexpr uint32_t kR = 0x00FF0000;
