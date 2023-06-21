@@ -8,7 +8,7 @@ namespace ECS {
 
 struct Entity_t {
   explicit Entity_t(uint32_t _w, uint32_t _h) : w{_w}, h{_h} {
-    sprite.reserve(_w * _h);
+    sprite.resize(w*h);
   }
 
   uint32_t x{0}, y{0};
@@ -21,7 +21,7 @@ struct Entity_Manager_t {
   static constexpr std::size_t kNUMINITIALENTITIES {1000};
 
   explicit Entity_Manager_t();
-  void createEntity(uint32_t w, uint32_t h, uint32_t color);
+  void createEntity(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t color);
   const VecEntities_t &getEntities() const { return m_Entity; }
 
 private:

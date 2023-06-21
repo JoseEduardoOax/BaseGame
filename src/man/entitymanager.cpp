@@ -8,9 +8,11 @@ Entity_Manager_t::Entity_Manager_t(){
 }
 
 void
-Entity_Manager_t::createEntity(uint32_t w, uint32_t h, uint32_t color){
+Entity_Manager_t::createEntity(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t color){
   auto& e = m_Entity.emplace_back(w,h);
-  std::fill(begin(e.sprite), end(e.sprite), color);
+  e.x = x;
+  e.y = y;
+  std::fill(e.sprite.begin(), e.sprite.end(), color);
 }
 
 }
