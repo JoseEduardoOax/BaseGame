@@ -2,17 +2,19 @@
 
 #include <cstdint>
 #include <memory>
-#include <man/entitymanager.hpp>
 
 namespace ECS{
 
+//Foward declaration
 struct Entity_Manager_t;
+struct Entity_t;
 
 struct RenderSystem_t {
   explicit RenderSystem_t(uint32_t w, uint32_t h, Entity_Manager_t& em);
   ~RenderSystem_t();
 
   bool update() const;
+  void drawEntity(const Entity_t& e) const;
   void drawAllEntities() const;
   
   //Constantes
