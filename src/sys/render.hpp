@@ -1,5 +1,6 @@
 #pragma once
 
+#include "util/typealiases.hpp"
 #include <cstdint>
 #include <memory>
 
@@ -8,14 +9,15 @@ namespace ECS{
 //Foward declaration
 struct Entity_Manager_t;
 struct Entity_t;
+struct GameContext_t;
 
 struct RenderSystem_t {
-  explicit RenderSystem_t(uint32_t w, uint32_t h, Entity_Manager_t& em);
+  explicit RenderSystem_t(uint32_t w, uint32_t h);
   ~RenderSystem_t();
 
-  bool update() const;
+  bool update(const GameContext_t& g) const;
   void drawEntity(const Entity_t& e) const;
-  void drawAllEntities() const;
+  void drawAllEntities(const VecEntities_t& entities) const;
   
   //Constantes
   static constexpr uint32_t kR = 0x00FF0000;
@@ -36,7 +38,6 @@ struct RenderSystem_t {
 private: 
   const uint32_t m_w{0}, m_h{0};
   std::unique_ptr<uint32_t[]>m_framebuffer {nullptr};
-  Entity_Manager_t& m_EntMan;
 };
 
 } // namespace ECS

@@ -1,18 +1,16 @@
-#include <cstdint>
 extern "C" {
   #include <tinyPTC/src/tinyptc.h>
 }
 
 #include <algorithm>
-#include <memory>
 #include <sys/render.hpp>
+#include <util/gamecontext.hpp>
 #include <man/entitymanager.hpp>
 
 namespace ECS{
-RenderSystem_t::RenderSystem_t(uint32_t w, uint32_t h, Entity_Manager_t& em)
+RenderSystem_t::RenderSystem_t(uint32_t w, uint32_t h)
   : m_w{w}, m_h{h}
   , m_framebuffer{std::make_unique<uint32_t[]>(m_w*m_h)}
-  , m_EntMan{em} 
 {
   ptc_open("Game", w, h);
 }
@@ -35,8 +33,7 @@ RenderSystem_t::~RenderSystem_t(){
 // }
 
 void
-RenderSystem_t::drawAllEntities() const{
-  auto &entities { m_EntMan.getEntities() };
+RenderSystem_t::drawAllEntities(const VecEntities_t& entities) const{
   auto screen = m_framebuffer.get();
 
   auto getScreenXY = [&](uint32_t x, uint32_t y){
@@ -57,12 +54,13 @@ RenderSystem_t::drawAllEntities() const{
  }
 
 bool
-RenderSystem_t::update() const{
+RenderSystem_t::update(const GameContext_t& g) const{
   auto screen = m_framebuffer.get();
+  g.getEntities();
   const auto size = m_w*m_h;
 
   std::fill(screen, screen+size, kR);
-  drawAllEntities();
+  drawAllEntities(g.getEntities());
   ptc_update(screen);
   
   return !ptc_process_events();
