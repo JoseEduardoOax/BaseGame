@@ -15,3 +15,7 @@ compile_commands.json
 
 # se omite archivos de valgrind(debugging memory leaks)
 vgcore.*
+
+
+# se omiten ficheros de imagen para leer, se debe crear una carpeta assets y meter archivos png
+assets/
