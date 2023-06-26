@@ -3,6 +3,8 @@ extern "C" {
 } 
 
 #include <sys/render.hpp>
+#include <sys/physics.hpp>
+#include <sys/collision.hpp>
 #include <man/entitymanager.hpp>
 #include <iostream>
  
@@ -13,10 +15,15 @@ int main() {
   try {
     ECS::Entity_Manager_t EntityMan;  
     EntityMan.createEntity(20, 40, 16, 16, 0x0000FF00); 
-    EntityMan.createEntity(0, 0, 16, 16, 0x000000FF); 
     
     const ECS::RenderSystem_t Render{kSCRWIDTH, kSCRHEIGHT}; 
-    while(Render.update(EntityMan));
+    ECS::PhysicsSystem_t Physics;
+    ECS::Collision_t Collision;
+    
+    while(Render.update(EntityMan)){
+      Physics.update(EntityMan);
+      Collision.update(EntityMan);
+    }
 
   } catch (...) {
     std::cout <<"Capturada\n";
