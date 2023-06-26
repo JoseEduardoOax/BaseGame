@@ -32,6 +32,7 @@ struct Entity_t {
 
   uint32_t x{0}, y{0};
   uint32_t w{0}, h{0};
+  int32_t vx{1}, vy{1};
   std::vector<uint32_t> sprite{};
 };
 }
