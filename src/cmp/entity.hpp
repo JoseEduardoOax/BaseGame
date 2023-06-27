@@ -4,8 +4,9 @@
 #include <cstring>
 #include <string>
 #include <vector>
-#include <picoPNG/src/picopng.hpp>
 #include <fstream>
+#include <picoPNG/src/picopng.hpp>
+#include <cmp/physics.hpp>
 
 namespace ECS{
 struct Entity_t {
@@ -40,9 +41,8 @@ struct Entity_t {
     w = dw; h = dh;
   }
 
-  uint32_t x{0}, y{0};
+  PhysicsComponent_t* phy{ nullptr};
   uint32_t w{0}, h{0};
-  int32_t vx{1}, vy{1};
   std::vector<uint32_t> sprite{};
 };
 }

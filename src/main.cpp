@@ -14,7 +14,7 @@ constexpr uint32_t kSCRHEIGHT {360};
 int main() {
   try {
     ECS::Entity_Manager_t EntityMan;  
-    EntityMan.createEntity(20, 40, 16, 16, 0x0000FF00); 
+    EntityMan.createEntity(20, 40, "assets/character.png"); 
     
     const ECS::RenderSystem_t Render{kSCRWIDTH, kSCRHEIGHT}; 
     ECS::PhysicsSystem_t Physics;
