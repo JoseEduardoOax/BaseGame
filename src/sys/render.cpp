@@ -5,7 +5,6 @@ extern "C" {
 #include <algorithm>
 #include <sys/render.hpp>
 #include <util/gamecontext.hpp>
-#include <man/entitymanager.hpp>
 
 namespace ECS{
 RenderSystem_t::RenderSystem_t(uint32_t w, uint32_t h)
@@ -33,7 +32,7 @@ RenderSystem_t::~RenderSystem_t(){
 // }
 
 void
-RenderSystem_t::drawAllEntities(const VecEntities_t& entities) const{
+RenderSystem_t::drawAllEntities(const Vec_t<Entity_t>& entities) const{
   auto screen = m_framebuffer.get();
 
   auto getScreenXY = [&](uint32_t x, uint32_t y){

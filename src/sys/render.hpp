@@ -1,14 +1,14 @@
 #pragma once
 
-#include "util/typealiases.hpp"
 #include <cstdint>
 #include <memory>
+#include <util/typealiases.hpp>
+#include <cmp/entity.hpp>
 
 namespace ECS{
 
 //Foward declaration
 struct Entity_Manager_t;
-struct Entity_t;
 struct GameContext_t;
 
 struct RenderSystem_t {
@@ -17,7 +17,7 @@ struct RenderSystem_t {
 
   bool update(const GameContext_t& g) const;
   void drawEntity(const Entity_t& e) const;
-  void drawAllEntities(const VecEntities_t& entities) const;
+  void drawAllEntities(const Vec_t<Entity_t>& entities) const;
   
   //Constantes
   static constexpr uint32_t kR = 0x00FF0000;
