@@ -15,6 +15,8 @@ int main() {
   try {
     ECS::Entity_Manager_t EntityMan;  
     EntityMan.createEntity(20, 40, "assets/character.png"); 
+    EntityMan.createEntity(80, 10, "assets/character.png"); 
+    EntityMan.createEntity(200, 70, "assets/character.png"); 
     
     const ECS::RenderSystem_t Render{kSCRWIDTH, kSCRHEIGHT}; 
     ECS::PhysicsSystem_t Physics;

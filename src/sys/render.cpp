@@ -40,7 +40,7 @@ RenderSystem_t::drawAllEntities(const Vec_t<Entity_t>& entities) const{
   };
 
   auto drawEntity = [&](const Entity_t &e) {
-    if (e.phy != nullptr) {
+    if (e.phy) {
       auto screen = getScreenXY(e.phy->x, e.phy->y);
       auto sprite_it = begin(e.sprite);
       for (uint32_t y = 0; y < e.h; ++y) {

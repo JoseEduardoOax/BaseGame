@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
+#include <optional>
 #include <vector>
 #include <string>
 #include <picoPNG/src/picopng.hpp>
@@ -12,7 +14,7 @@
 namespace ECS {
 
 struct Entity_t {
-  explicit Entity_t(uint32_t _w, uint32_t _h) : w{_w}, h{_h} {
+  explicit Entity_t(uint32_t pw, uint32_t ph) : w{pw}, h{ph} {
     sprite.resize(w * h);
   }
 
@@ -34,9 +36,7 @@ struct Entity_t {
                        static_cast<uint32_t>(*(p + 3)) << 24;
       sprite.push_back(pixel);
     }
-
-    // std::memcpy(sprite.data(), pixels.data(), pixels.size());
-    // sprite = std::vector<uint32_t>(pixels.begin(), pixels.end());
+    
     w = dw;
     h = dh;
   }
@@ -44,6 +44,8 @@ struct Entity_t {
   PhysicsComponent_t *phy{nullptr};
   uint32_t w{0}, h{0};
   std::vector<uint32_t> sprite{};
-  EntityID_t entityID;
+  EntityID_t entityID {++nextID};
+  
+  inline static EntityID_t nextID {0};
 };
 } // namespace ECS

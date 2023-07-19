@@ -1,6 +1,6 @@
 #pragma once
 
-#include "util/typealiases.hpp"
+#include <util/typealiases.hpp>
 
 namespace ECS{
 
