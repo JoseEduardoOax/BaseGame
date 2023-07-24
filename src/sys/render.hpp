@@ -16,8 +16,8 @@ struct RenderSystem_t {
   ~RenderSystem_t();
 
   bool update(const GameContext_t& g) const;
+  void drawAllEntities(const GameContext_t& g) const;
   void drawEntity(const Entity_t& e) const;
-  void drawAllEntities(const Vec_t<Entity_t>& entities) const;
   
   //Constantes
   static constexpr uint32_t kR = 0x00FF0000;

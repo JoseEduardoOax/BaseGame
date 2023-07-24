@@ -18,40 +18,31 @@ RenderSystem_t::~RenderSystem_t(){
   ptc_close();
 }
 
-// void 
-// RenderSystem_t::drawEntity(const Entity_t &e) const{
-//   auto screen = m_framebuffer.get();
-//   
-//   screen += e.y * m_w + e.x;
-//   auto sprite_it = begin(e.sprite);
-//   for (uint32_t y = 0; y < e.h; ++y) {
-//     std::copy(sprite_it, sprite_it + e.w, screen);
-//     sprite_it += e.w;
-//     screen += m_w;
-//   }
-// }
-
 void
-RenderSystem_t::drawAllEntities(const Vec_t<Entity_t>& entities) const{
+RenderSystem_t::drawAllEntities(const GameContext_t& g) const{
   auto screen = m_framebuffer.get();
 
   auto getScreenXY = [&](uint32_t x, uint32_t y){
     return screen + y*m_w + x;
   };
 
-  auto drawEntity = [&](const Entity_t &e) {
-    if (e.phy) {
+  auto drawEntity = [&](const RenderComponent_t& rc) {
+    auto eptr = g.getEntityByID(rc.getEntityID());
+
+    if (eptr && eptr->phy) {
+      auto& e = *eptr;
       auto screen = getScreenXY(e.phy->x, e.phy->y);
-      auto sprite_it = begin(e.sprite);
-      for (uint32_t y = 0; y < e.h; ++y) {
-        std::copy(sprite_it, sprite_it + e.w, screen);
-        sprite_it += e.w;
+      auto sprite_it = begin(e.ren->sprite);
+      for (uint32_t y = 0; y < e.ren->h; ++y) {
+        std::copy(sprite_it, sprite_it + e.ren->w, screen);
+        sprite_it += e.ren->w;
         screen += m_w;
       }
     }
   };
 
-  std::for_each(begin(entities), end(entities), drawEntity);
+  auto& rencmps = g.getRenderComponents();
+  std::for_each(begin(rencmps), end(rencmps), drawEntity);
  }
 
 bool
@@ -61,7 +52,7 @@ RenderSystem_t::update(const GameContext_t& g) const{
   const auto size = m_w*m_h;
 
   std::fill(screen, screen+size, kR);
-  drawAllEntities(g.getEntities());
+  drawAllEntities(g);
   ptc_update(screen);
   
   return !ptc_process_events();
