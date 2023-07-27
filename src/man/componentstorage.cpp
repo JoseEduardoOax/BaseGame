@@ -12,5 +12,11 @@ ComponentStorage_t::createRenderComponent(EntityID_t eid){
   auto& cmp = m_renderComponents.emplace_back(eid);
   return cmp;
 }
+
+InputComponent_t&
+ComponentStorage_t::createInputComponent(EntityID_t eid){
+  auto& cmp = m_inputComponents.emplace_back(eid);
+  return cmp;
+}
 }
 

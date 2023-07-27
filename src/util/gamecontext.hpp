@@ -18,6 +18,9 @@ struct GameContext_t {
   
   virtual const std::vector<RenderComponent_t>& getRenderComponents()   const = 0;
   virtual       std::vector<RenderComponent_t>& getRenderComponents()         = 0;
+  
+  virtual const std::vector<InputComponent_t>& getInputComponents()     const = 0;
+  virtual       std::vector<InputComponent_t>& getInputComponents()           = 0;
 
 };
 
