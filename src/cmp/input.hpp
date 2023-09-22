@@ -7,9 +7,13 @@
 
 namespace ECS {
 struct InputComponent_t : public Component_t{
-  explicit InputComponent_t(EntityID_t eid) : Component_t(eid){
-    
-  };
+  explicit InputComponent_t(EntityID_t eid) 
+    : Component_t(eid)
+  {};
+  
+  static ComponentTypeID_t getComponentTypeID() noexcept{
+    return static_cast<ComponentTypeID_t>(1);
+  }
 
   KeySym key_LEFT   {XK_o};
   KeySym key_RIGHT  {XK_p};

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "cmp/render.hpp"
 #include <cstdint>
-#include <string_view>
 #include <vector>
+#include <string_view>
 #include <man/componentstorage.hpp>
 #include <util/typealiases.hpp>
 #include <util/gamecontext.hpp>
@@ -23,14 +22,14 @@ struct Entity_Manager_t : public GameContext_t{
   const Vec_t<Entity_t>& getEntities() const override { return m_Entity; }
         Vec_t<Entity_t>& getEntites()        override { return m_Entity;}
   
-  const std::vector<PhysicsComponent_t>& getPhysicsComponents() const override{return m_components.getPhysicsComponents();}
-        std::vector<PhysicsComponent_t>& getPhysicsComponents()       override{return m_components.getPhysicsComponents();}
+  const Vec_t<PhysicsComponent_t>& getPhysicsComponents() const override{return m_components.getPhysicsComponents();}
+        Vec_t<PhysicsComponent_t>& getPhysicsComponents()       override{return m_components.getPhysicsComponents();}
   
-  const std::vector<RenderComponent_t>& getRenderComponents()   const override{return m_components.getRenderComponents();}
-        std::vector<RenderComponent_t>& getRenderComponents()         override{return m_components.getRenderComponents();}
+  const Vec_t<RenderComponent_t>& getRenderComponents()   const override{return m_components.getRenderComponents();}
+        Vec_t<RenderComponent_t>& getRenderComponents()         override{return m_components.getRenderComponents();}
   
-  const std::vector<InputComponent_t>& getInputComponents()     const override{return m_components.getInputComponents(); }
-        std::vector<InputComponent_t>& getInputComponents()           override{return m_components.getInputComponents(); }
+  const Vec_t<InputComponent_t>& getInputComponents()     const override{return m_components.getInputComponents(); }
+        Vec_t<InputComponent_t>& getInputComponents()           override{return m_components.getInputComponents(); }
 
 private:
   Vec_t<Entity_t> m_Entity{};

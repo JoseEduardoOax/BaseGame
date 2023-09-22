@@ -29,14 +29,18 @@ RenderSystem_t::drawAllEntities(const GameContext_t& g) const{
   auto drawEntity = [&](const RenderComponent_t& rc) {
     auto eptr = g.getEntityByID(rc.getEntityID());
 
-    if (eptr && eptr->phy) {
-      auto& e = *eptr;
-      auto screen = getScreenXY(e.phy->x, e.phy->y);
-      auto sprite_it = begin(e.ren->sprite);
-      for (uint32_t y = 0; y < e.ren->h; ++y) {
-        std::copy(sprite_it, sprite_it + e.ren->w, screen);
-        sprite_it += e.ren->w;
-        screen += m_w;
+    if(eptr){
+      auto phy = eptr->getComponent<PhysicsComponent_t>();
+      auto ren = eptr->getComponent<RenderComponent_t>();
+     
+      if(phy && ren){
+        auto screen = getScreenXY(phy->x, phy->y);
+        auto sprite_it = begin(ren->sprite);
+        for (uint32_t y = 0; y < ren->h; ++y) {
+          std::copy(sprite_it, sprite_it + ren->w, screen);
+          sprite_it += ren->w;
+          screen += m_w;
+        }
       }
     }
   };

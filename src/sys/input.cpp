@@ -31,19 +31,29 @@ InputSystem_t::update(GameContext_t &g) const {
   for(auto& inp: g.getInputComponents()){
     auto* e = g.getEntityByID(inp.getEntityID());
 
-    if(e && e->phy){
-      auto& phy = *(e->phy);
+    if(e){
+      auto phy = (e->getComponent<PhysicsComponent_t>());
 
-      phy.vx = phy.vy = 0;
-
-      if(ms_Keyboard.isKeyPressed(inp.key_LEFT )) phy.vx =-1;
-      if(ms_Keyboard.isKeyPressed(inp.key_RIGHT)) phy.vx = 1;
-      if(ms_Keyboard.isKeyPressed(inp.key_UP   )) phy.vy =-1;
-      if(ms_Keyboard.isKeyPressed(inp.key_DOWN )) phy.vy = 1;
+      if(phy){
+        phy->vx = phy->vy = 0;
+        if(ms_Keyboard.isKeyPressed(inp.key_LEFT )) phy->vx =-1;
+        if(ms_Keyboard.isKeyPressed(inp.key_RIGHT)) phy->vx = 1;
+        if(ms_Keyboard.isKeyPressed(inp.key_UP   )) phy->vy =-1;
+        if(ms_Keyboard.isKeyPressed(inp.key_DOWN )) phy->vy = 1;
+      }
     }
-    // if(ms_Keyboard.isKeyPressed(XK_0))
+    //
+    // if(e && e->phy){
+    //   auto& phy = *(e->phy);
+    //
+    //   phy.vx = phy.vy = 0;
+    //
+    //   if(ms_Keyboard.isKeyPressed(inp.key_LEFT )) phy.vx =-1;
+    //   if(ms_Keyboard.isKeyPressed(inp.key_RIGHT)) phy.vx = 1;
+    //   if(ms_Keyboard.isKeyPressed(inp.key_UP   )) phy.vy =-1;
+    //   if(ms_Keyboard.isKeyPressed(inp.key_DOWN )) phy.vy = 1;
+    // }
   }
-
 
   return true;
 }

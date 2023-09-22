@@ -31,8 +31,10 @@ Entity_Manager_t::createEntity(uint32_t x, uint32_t y, const std::string_view fi
   auto& rn = m_components.createRenderComponent(eid);
   auto& ph = m_components.createPhysicsComponent(eid);
   rn.loadFromFile(filename);
-  e.phy = &ph;
-  e.ren = &rn;
+  e.addComponent(rn);
+  e.addComponent(ph);
+  // e.phy = &ph;
+  // e.ren = &rn;
   ph.x = x; ph.y = y;
   
   return e;
@@ -40,9 +42,11 @@ Entity_Manager_t::createEntity(uint32_t x, uint32_t y, const std::string_view fi
 
 void
 Entity_Manager_t::addInputComponent(Entity_t& e){
-  if(!e.inp){
+  auto inputComponent = e.getComponent<InputComponent_t>();
+  if(!inputComponent){
     auto& cmp = m_components.createInputComponent(e.getEntityID());
-    e.inp = &cmp;
+    e.addComponent(cmp);
+    // e.inp = &cmp;
   }
 }
 
