@@ -37,7 +37,9 @@ private:
     , {XK_p             , false}
     , {XK_q             , false}
     , {XK_a             , false}
-
+    , {XK_d             , false}
+    , {XK_w             , false}
+    , {XK_s             , false}
   };
 };
 }

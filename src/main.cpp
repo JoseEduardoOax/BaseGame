@@ -6,7 +6,7 @@ extern "C" {
 #include <memory>
 #include <iostream>
 #include <sys/render.hpp>
-#include <sys/input.hpp>
+#include <sys/input.tpp>
 #include <sys/physics.hpp>
 #include <sys/collision.hpp>
 #include <man/entitymanager.hpp>
@@ -26,7 +26,7 @@ int main() {
     const ECS::RenderSystem_t Render{kSCRWIDTH, kSCRHEIGHT}; 
     ECS::PhysicsSystem_t Physics;
     ECS::Collision_t Collision;
-    ECS::InputSystem_t Input;
+    ECS::InputSystem_t<ECS::Entity_Manager_t> Input;
     
     while(Render.update(EntityMan)){
       Input.update(EntityMan);

@@ -15,8 +15,8 @@ namespace ECS {
 
 struct RenderComponent_t : Component_t {
   explicit RenderComponent_t(EntityID_t eid)
-      : Component_t(eid){
-        };
+    : Component_t(eid)
+  {};
 
   static ComponentTypeID_t getComponentTypeID() noexcept{
     return static_cast<ComponentTypeID_t>(3);

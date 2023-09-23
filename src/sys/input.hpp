@@ -6,12 +6,13 @@
 namespace ECS{
 
 //Foward declaration
-struct GameContext_t;
+// struct GameContext_t;
 
+template <typename GameCTX_t>
 struct InputSystem_t {
   explicit InputSystem_t();
 
-  bool update(GameContext_t& g) const;
+  bool update(GameCTX_t& g) const;
 
 private: 
   static void onkeypress(KeySym k);

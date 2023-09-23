@@ -15,10 +15,9 @@ struct InputComponent_t : public Component_t{
     return static_cast<ComponentTypeID_t>(1);
   }
 
-  KeySym key_LEFT   {XK_o};
-  KeySym key_RIGHT  {XK_p};
-  KeySym key_UP     {XK_q};
-  KeySym key_DOWN   {XK_a};
-  
+  KeySym key_LEFT   {XK_a};
+  KeySym key_RIGHT  {XK_d};
+  KeySym key_UP     {XK_w};
+  KeySym key_DOWN   {XK_s};
 };
 } // namespace ECS

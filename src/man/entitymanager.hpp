@@ -21,15 +21,27 @@ struct Entity_Manager_t : public GameContext_t{
   
   const Vec_t<Entity_t>& getEntities() const override { return m_Entity; }
         Vec_t<Entity_t>& getEntites()        override { return m_Entity;}
+
+  template <typename CMP_t>
+  const Vec_t<CMP_t>&
+  getComponents() const{
+    return m_components.getComponents<CMP_t>();
+  }
   
-  const Vec_t<PhysicsComponent_t>& getPhysicsComponents() const override{return m_components.getPhysicsComponents();}
-        Vec_t<PhysicsComponent_t>& getPhysicsComponents()       override{return m_components.getPhysicsComponents();}
+  template <typename CMP_t>
+  Vec_t<CMP_t>&
+  getComponents(){
+    return m_components.getComponents<CMP_t>();
+  }
+ 
+  const Vec_t<PhysicsComponent_t>& getPhysicsComponents() const override{return m_components.getComponents<PhysicsComponent_t>();}
+        Vec_t<PhysicsComponent_t>& getPhysicsComponents()       override{return m_components.getComponents<PhysicsComponent_t>();}
   
-  const Vec_t<RenderComponent_t>& getRenderComponents()   const override{return m_components.getRenderComponents();}
-        Vec_t<RenderComponent_t>& getRenderComponents()         override{return m_components.getRenderComponents();}
+  const Vec_t<RenderComponent_t>& getRenderComponents()   const override{return m_components.getComponents<RenderComponent_t>();}
+        Vec_t<RenderComponent_t>& getRenderComponents()         override{return m_components.getComponents<RenderComponent_t>();}
   
-  const Vec_t<InputComponent_t>& getInputComponents()     const override{return m_components.getInputComponents(); }
-        Vec_t<InputComponent_t>& getInputComponents()           override{return m_components.getInputComponents(); }
+  const Vec_t<InputComponent_t>& getInputComponents()     const override{return m_components.getComponents<InputComponent_t>(); }
+        Vec_t<InputComponent_t>& getInputComponents()           override{return m_components.getComponents<InputComponent_t>(); }
 
 private:
   Vec_t<Entity_t> m_Entity{};

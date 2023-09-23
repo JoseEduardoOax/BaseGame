@@ -9,7 +9,9 @@
 
 namespace ECS {
 
-struct ComponentVectorBase_t {};
+struct ComponentVectorBase_t {
+  virtual ~ComponentVectorBase_t() = default;
+};
 
 template <typename CMP_t>
 struct ComponentVector_t: ComponentVectorBase_t{
@@ -18,17 +20,12 @@ struct ComponentVector_t: ComponentVectorBase_t{
 
 struct ComponentStorage_t {
   // ComponentStorage_t() = delete;
-  explicit ComponentStorage_t(std::size_t initialsize) : m_initialSize(initialsize) {
-  }
+  explicit ComponentStorage_t(std::size_t initialsize) : m_initialSize(initialsize) {}
 
   ComponentStorage_t(const ComponentStorage_t &) = delete;
   ComponentStorage_t(ComponentStorage_t &&) = delete;
   ComponentStorage_t &operator=(const ComponentStorage_t &) = delete;
   ComponentStorage_t &operator=(ComponentStorage_t &&) = delete;
-
-  PhysicsComponent_t& createPhysicsComponent(EntityID_t eid);
-  RenderComponent_t&  createRenderComponent (EntityID_t eid);
-  InputComponent_t&   createInputComponent (EntityID_t eid);
 
   template<typename CMP_t>
   CMP_t& createComponent(EntityID_t eid){
@@ -54,7 +51,7 @@ struct ComponentStorage_t {
     auto it = m_componentVectors.find(typeID);
 
     if(it != m_componentVectors.end()){
-      auto* v = static_cast<ComponentVector_t<CMP_t>*>(it->second.get());
+      auto* v = dynamic_cast<ComponentVector_t<CMP_t>*>(it->second.get());
       comvec = &(v->components);
     }else{
       comvec = &createComponentVector<CMP_t>();
@@ -70,7 +67,7 @@ struct ComponentStorage_t {
     auto it = m_componentVectors.find(typeID);
 
     if(it != m_componentVectors.end()){
-      auto* v = static_cast<ComponentVector_t<CMP_t>*>(it->second.get());
+      auto* v = dynamic_cast<ComponentVector_t<CMP_t>*>(it->second.get());
       comvec = &(v->components);
     }else{
       throw "Asi no hombre!";
@@ -79,16 +76,7 @@ struct ComponentStorage_t {
 
     return *comvec;
   }
-  
-  const std::vector<PhysicsComponent_t>& getPhysicsComponents() const { return getComponents<PhysicsComponent_t>(); }
-        std::vector<PhysicsComponent_t>& getPhysicsComponents()       { return getComponents<PhysicsComponent_t>(); }
-  
-  const std::vector<RenderComponent_t>& getRenderComponents()   const { return getComponents<RenderComponent_t>(); }
-        std::vector<RenderComponent_t>& getRenderComponents()         { return getComponents<RenderComponent_t>(); }
 
-  const std::vector<InputComponent_t>& getInputComponents()     const { return getComponents<InputComponent_t>(); }
-        std::vector<InputComponent_t>& getInputComponents()           { return getComponents<InputComponent_t>(); }
-  
 private:
   Hash_t<ComponentTypeID_t, Uptr<ComponentVectorBase_t>> m_componentVectors;
   std::size_t m_initialSize{100};
