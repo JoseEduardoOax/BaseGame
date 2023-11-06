@@ -1,0 +1,26 @@
+# BasedOnStyle: Google
+IndentWidth: 2
+
+PointerAlignment: Left
+
+SortIncludes: Never
+
+AlignConsecutiveAssignments: "Consecutive"
+
+AlignArrayOfStructures: "Right"
+
+AllowShortCaseLabelsOnASingleLine: true
+
+AllowShortIfStatementsOnASingleLine: "AllIfsAndElse"
+
+AlwaysBreakAfterReturnType: "TopLevel" 
+
+AlwaysBreakTemplateDeclarations: "Yes"
+
+ColumnLimit: 60
+
+# AlignAfterOpenBracket: BlockIndent
+# BracedInitializerIndentWidth: 2
+
+
+
