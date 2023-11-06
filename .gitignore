@@ -2,7 +2,7 @@
 obj/
 
 #nombre de la aplicacion
-game
+/game
 
 #salida de librerias
 **/*.a
