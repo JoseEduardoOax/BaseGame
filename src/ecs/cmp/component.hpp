@@ -12,9 +12,21 @@ struct Component_t {
     return entityID;
   }
 
+protected:
+  inline static ComponentID_t nextTypeID{0};
+
 private:
-  ComponentID_t ComponentID{++nextID};
   EntityID_t entityID{0};
-  inline static std::size_t nextID{0};
 };
+
+template <typename Type>
+struct ComponentBase_t : Component_t{
+  explicit ComponentBase_t(EntityID_t eid) : Component_t{eid} {}
+
+  static ComponentTypeID_t getComponentTypeID() noexcept{
+    static ComponentTypeID_t typeID {++nextTypeID};
+    return typeID;
+  }
+};
+
 } // namespace ECS
