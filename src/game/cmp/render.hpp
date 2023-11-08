@@ -1,19 +1,15 @@
 #pragma once
 
+#include <picoPNG/src/picopng.hpp>
 #include <string_view>
 #include <vector>
 
-#include <picoPNG/src/picopng.hpp>
 #include <ecs/cmp/component.hpp>
 
-struct RenderComponent_t : public ECS::Component_t {
+struct RenderComponent_t
+    : public ECS::ComponentBase_t<RenderComponent_t> {
   explicit RenderComponent_t(ECS::EntityID_t eid)
-      : Component_t(eid){};
-
-  static ECS::ComponentTypeID_t
-  getComponentTypeID() noexcept {
-    return static_cast<ECS::ComponentTypeID_t>(3);
-  }
+      : ComponentBase_t(eid){};
 
   void loadFromFile(const std::string_view filename);
   void
