@@ -41,13 +41,16 @@ LIBS 			:= $(LIBDIR)/picoPNG/libpicopng.a $(LIBDIR)/tinyPTC/libtinyptc.a -lX11
 INCDIRS 	:= -I$(SRC) -I$(LIBDIR)
 
 ifdef DEBUG
-	CCFLAGS += -g
+   CCFLAGS += -g 
+else ifdef SANITIZE
+   CCFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1 -g
 else
-	CCFLAGS += -O3
+   CCFLAGS += -O3
 endif
 
 #patsubst sustituye path por ejemplo el path src lo puedes sustituir por obj
-ALLCPPS 		:= $(shell find src/ -type f -iname "*.cpp")
+# ALLCPPS 		:= $(shell find src/ -type f -iname "*.cpp")
+ALLCPPS     := $(shell find src/ -type f \( -iname "*.cpp" ! -iname "main.cpp" \))
 ALLCS 			:= $(shell find src/ -type f -iname "*.c")
 ALLSOBJ 	:= $(foreach F, $(ALLCPPS) $(ALLCS),$(call C20,$(F)))
 SUBDIRS 		:= $(shell find $(SRC) -type d)
@@ -55,8 +58,11 @@ OBJSUBDIRS 	:= $(patsubst $(SRC)%, $(OBJ)%, $(SUBDIRS))
 
 .PHONY: info libs libs-clean libs-cleanall
 
-$(APP) : $(OBJSUBDIRS) $(ALLSOBJ)
-	$(CC) -o $(APP) $(ALLSOBJ) $(LIBS)
+$(APP) : $(OBJSUBDIRS) $(ALLSOBJ) obj/main.o
+	$(CC) -o $(APP) obj/main.o $(ALLSOBJ) $(LIBS)
+
+obj/main.o : src/main.cpp
+	$(CC) $(CCFLAGS) $(INCDIRS) -c -o obj/main.o src/main.cpp
 
 #Generate rules for all objects
 $(foreach F,$(ALLCPPS),$(eval $(call COMPILE,$(CC),$(call C20,$(F)),$(F),$(call C2H,$(F)),$(CCFLAGS) $(INCDIRS))))
